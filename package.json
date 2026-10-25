@@ -1,0 +1,16 @@
+{
+  "name": "budget-tracker",
+  "version": "1.0.0",
+  "description": "Self-hosted household budget tracker",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.3.0",
+    "express": "^4.19.2"
+  },
+  "allowScripts": {
+    "better-sqlite3@11.10.0": true
+  }
+}

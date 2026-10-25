@@ -1,0 +1,25 @@
+services:
+  budget-tracker:
+    build: .
+    container_name: budget-tracker
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - PORT=3000
+      - DATA_DIR=/app/data
+      # If you put this behind Cloudflare Access, Access injects this header
+      # with the authenticated user's email on every request. Leave as-is
+      # unless you've customized Access's identity header name.
+      - IDENTITY_HEADER=Cf-Access-Authenticated-User-Email
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=eyJhIjoiZDFlZGQ1MTgxMzFiYzgzNDE0ZjY0YjU1YzViNjE1NTUiLCJ0IjoiYWM2MjkyNTEtMTA0Yy00OGMxLTg2MzctZDUxOTcxZTY0Yjk5IiwicyI6Ik16STRZak15TlRjdE5qRXpOeTAwTXpZMExUaG1PV1F0TnpKbU5qSTJNbUpoWkRkayJ9
+    depends_on:
+      - budget-tracker

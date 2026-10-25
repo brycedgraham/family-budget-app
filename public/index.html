@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Household Budget</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+<div class="page">
+
+  <header class="ledger-head">
+    <span class="brand">Household Budget</span>
+    <nav class="month-nav">
+      <button id="prevMonth" class="icon-btn" aria-label="Previous month">&#8249;</button>
+      <span id="monthLabel" class="month-label">September 2026</span>
+      <button id="nextMonth" class="icon-btn" aria-label="Next month">&#8250;</button>
+    </nav>
+  </header>
+
+  <section class="summary" id="summary">
+    <div class="summary-main">
+      <div class="summary-label" id="summaryLabel">Remaining this month</div>
+      <div class="summary-number" id="remainingAmount">&mdash;</div>
+      <div class="summary-sub" id="summarySub">Loading&hellip;</div>
+    </div>
+    <div class="summary-bar-track">
+      <div class="summary-bar-fill" id="summaryBarFill"></div>
+    </div>
+    <button id="editBudgetBtn" class="link-btn">Set budget for this month</button>
+  </section>
+
+  <hr class="rule" />
+
+  <section class="entry" aria-label="Add a transaction">
+    <form id="entryForm" class="entry-form">
+      <div class="field field-date">
+        <label for="txDate">Date</label>
+        <input type="date" id="txDate" required />
+      </div>
+      <div class="field field-desc">
+        <label for="txDesc">Description</label>
+        <input type="text" id="txDesc" placeholder="Groceries, gas, dinner out&hellip;" maxlength="200" />
+      </div>
+      <div class="field field-store">
+        <label for="txStore">Store</label>
+        <input type="text" id="txStore" placeholder="Whole Foods, Shell&hellip;" maxlength="200" aria-autocomplete="list" />
+        <ul id="storeSuggest" class="store-suggest" hidden role="listbox"></ul>
+      </div>
+      <div class="field field-user">
+        <label for="txUser">Entered by</label>
+        <select id="txUser" required></select>
+      </div>
+      <div class="field field-amount">
+        <label for="txAmount">Amount</label>
+        <input type="number" id="txAmount" step="0.01" placeholder="0.00" required />
+      </div>
+      <button type="submit" class="add-btn">Add</button>
+    </form>
+    <p class="hint">Enter a positive amount for money spent, or a negative amount for a refund or extra income.</p>
+    <p class="error" id="entryError" role="alert"></p>
+  </section>
+
+  <hr class="rule" />
+
+  <section class="ledger" aria-label="Transactions">
+    <div class="ledger-empty" id="ledgerEmpty" hidden>No transactions yet for this month.</div>
+    <ul class="ledger-list" id="ledgerList"></ul>
+  </section>
+
+  <hr class="rule faint" />
+
+  <section class="stores" aria-label="Spending by store">
+    <div class="summary-label">Spent by store</div>
+    <div class="stores-empty" id="storesEmpty" hidden>No spending logged for this month.</div>
+    <ul class="stores-list" id="storesList"></ul>
+  </section>
+  <hr class="rule faint" />
+
+  <section class="people">
+    <button id="togglePeople" class="link-btn subtle">Manage people</button>
+    <div class="people-panel" id="peoplePanel" hidden>
+      <ul class="people-list" id="peopleList"></ul>
+      <form id="addPersonForm" class="add-person-form">
+        <input type="text" id="newPersonName" placeholder="Add a name" maxlength="60" />
+        <button type="submit">Add</button>
+      </form>
+    </div>
+  </section>
+
+</div>
+
+<div class="modal-backdrop" id="budgetModalBackdrop" hidden>
+  <form class="modal" id="budgetForm">
+    <h2 id="budgetModalTitle">Set budget</h2>
+    <label for="budgetAmount">Monthly budget amount</label>
+    <input type="number" id="budgetAmount" step="0.01" min="0" required />
+    <div class="modal-actions">
+      <button type="button" id="cancelBudgetBtn" class="link-btn">Cancel</button>
+      <button type="submit" class="add-btn">Save</button>
+    </div>
+  </form>
+</div>
+
+<div class="modal-backdrop" id="deleteModalBackdrop" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+    <h2 id="deleteModalTitle">Delete this entry?</h2>
+    <p class="modal-text" id="deleteModalText"></p>
+    <div class="modal-actions">
+      <button type="button" id="cancelDeleteBtn" class="link-btn">Cancel</button>
+      <button type="button" id="confirmDeleteBtn" class="danger-btn">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>
